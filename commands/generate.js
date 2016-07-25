@@ -20,7 +20,6 @@ function init() {
 function handle(uses) {
   "use strict";
   builder.generate(uses);
-
 };
 
 
