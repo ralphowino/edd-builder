@@ -3,6 +3,11 @@
 var program = require('commander');
 var installer = require('../components/install');
 
+/**
+ * Initialize the install commands for:
+ * 1. Library
+ * 2. Plugin
+ */
 function init() {
     // Installing eddie library
     program
@@ -21,9 +26,12 @@ function init() {
         .parse(process.argv);
 }
 
+/**
+ * Handles the installation of the libraries
+ *
+ * @param library
+ */
 function handleLibraryInstallation(library) {
-    "use strict";
-
     installer.installLibrary(library).then((response) => {
         console.log(response);
     }, (err) => {
@@ -31,6 +39,11 @@ function handleLibraryInstallation(library) {
     });
 }
 
+/**
+ * Handles the installation of the plugins
+ *
+ * @param plugin
+ */
 function handlePluginInstallation(plugin) {
     installer.installPlugin(plugin).then((response) => {
         console.log(response);
@@ -38,6 +51,7 @@ function handlePluginInstallation(plugin) {
         console.log(err);
     })
 }
+
 module.exports = {
     init: init,
     handlePluginInstallation: handlePluginInstallation,
