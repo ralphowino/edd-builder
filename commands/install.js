@@ -9,19 +9,19 @@ var installer = require('../components/install');
  * 2. Plugin
  */
 function init() {
-    // Installing eddie library
+    // Installing edd library
     program
         .command('install:library')
-        .description("Installs eddie's libraries from github.com")
-        .arguments('<library>', "The library you want to install to eddie e.g. username/repo_name")
+        .description("Installs edd's libraries from github.com")
+        .arguments('<library>', "The library you want to install to edd e.g. username/repo_name")
         .action(handleLibraryInstallation)
         .parse(process.argv);
 
-    // Installing eddie plugins
+    // Installing edd plugins
     program
         .command('install:plugin')
-        .description("Installs eddie's plugins from github.com")
-        .arguments('<plugin>', "The plugin you want to install to eddie e.g. username/repo_name")
+        .description("Installs edd's plugins from github.com")
+        .arguments('<plugin>', "The plugin you want to install to edd e.g. username/repo_name")
         .action(handlePluginInstallation)
         .parse(process.argv);
 }

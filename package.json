@@ -1,9 +1,9 @@
 {
-  "name": "eddie",
+  "name": "edd",
   "version": "0.0.1",
   "description": "A file generator for the modern day developer",
   "bin": {
-    "eddie": "./src/commands/index.js",
+    "edd": "./src/commands/index.js",
     "ed": "./src/commands/index.js"
   },
   "dependencies": {

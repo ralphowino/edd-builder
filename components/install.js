@@ -3,10 +3,10 @@
 var q = require('q');
 var exec = require('exec');
 var fs = require('fs-plus');
-var io = require('../../eddie-io');
+var io = require('../../edd-io');
 var ghdownload = require('github-download');
 var Spinner = require('cli-spinner').Spinner;
-var fileSys = require('../../eddie-fs/components/Filesystem/index');
+var fileSys = require('../../edd-fs/components/Filesystem/index');
 
 class Installer {
     /**
@@ -39,7 +39,7 @@ class Installer {
             });
         } else {
             // report no local folder was found
-            return defered.reject(new Error('You should initialize eddie for this project first'));
+            return defered.reject(new Error('You should initialize edd for this project first'));
         }
 
         return defered.promise;
@@ -74,7 +74,7 @@ class Installer {
             });
         } else {
             // report no local folder was found
-            return defered.reject(new Error('You should initialize eddie for this project first'));
+            return defered.reject(new Error('You should initialize edd for this project first'));
         }
 
         return defered.promise;
