@@ -3,10 +3,10 @@
 var q = require('q');
 var exec = require('exec');
 var fs = require('fs-plus');
-var io = require('../../eddie-io');
+var io = require('../../edd-io');
 var ghdownload = require('github-download');
 var Spinner = require('cli-spinner').Spinner;
-var fileSys = require('../../eddie-fs/components/Filesystem/index');
+var fileSys = require('../../edd-fs/components/Filesystem/index');
 
 class Installer {
     /**
