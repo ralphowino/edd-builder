@@ -11,9 +11,10 @@ var installer = require('../components/install');
 function init() {
     // Installing edd library
     program
-        .command('install:library')
+        .command('library:install')
         .description("Installs edd's libraries from github.com")
         .arguments('<library>', "The library you want to install to edd e.g. username/repo_name")
+        .arguments('[version]', "The version you want [default=master]")
         .action(handleLibraryInstallation)
         .parse(process.argv);
 
@@ -31,9 +32,9 @@ function init() {
  *
  * @param library
  */
-function handleLibraryInstallation(library) {
-    installer.installLibrary(library).then((response) => {
-        console.log(response);
+function handleLibraryInstallation(library, version) {
+    installer.installLibrary(library, version).then((response) => {
+        //console.log(response);
     }, (err) => {
         console.log(err);
     });
