@@ -15,12 +15,12 @@ function init() {
     .description('Generate files based on a library')
     .action(command.handle);
 
-};
+}
 
 function handle(uses) {
   "use strict";
   builder.generate(uses);
-};
+}
 
 
 
