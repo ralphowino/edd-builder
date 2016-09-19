@@ -1,26 +1,20 @@
-var program = require('commander'),
-  builder = require('./../lib/builder.js');
+var program = require('commander');
 
-var command = {};
-command.init = init;
-command.handle = handle;
+import {Builder} from './../lib/builder';
 
-module.exports = command;
+class Generate {
+    init() {
+        program
+            .command('generate [uses]')
+            .alias('g')
+            .description('Generate files based on a library')
+            .action(this.handle);
 
+    }
 
-function init() {
-  program
-    .command('generate [uses]')
-    .alias('g')
-    .description('Generate files based on a library')
-    .action(command.handle);
-
+    handle(uses) {
+        Builder.generate(uses);
+    }
 }
-
-function handle(uses) {
-  "use strict";
-  builder.generate(uses);
-}
-
-
+export let CommandGenerate = new Generate();
 

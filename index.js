@@ -1,16 +1,11 @@
-var plugin = module.exports = {};
-var installCmd = require('./commands/install');
-var generateCmd = require('./commands/generate');
-//var librariesCmd = require('./commands/libraries');
-
+var plugin = {};
 plugin.name = 'File Builder';
 
+import {CommandInstall} from './commands/install';
+import {CommandGenerate} from './commands/generate';
+// import { CommandLibraries} from './commands/libraries';
 
-plugin.init = function () {
-    "use strict";
-    installCmd.init();
-    generateCmd.init();
-};
-
-
-return module.exports;
+export function init() {
+    CommandInstall.init();
+    CommandGenerate.init();
+}

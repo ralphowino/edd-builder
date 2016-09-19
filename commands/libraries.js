@@ -1,34 +1,26 @@
-var program = require('commander'),
-  library = require('./../lib/library.js');
+var program = require('commander');
 
-var command = {};
-command.init = init;
-command.handle = handle;
+import {Library} from './../lib/library';
 
-module.exports = command;
+class Libraries {
+    init() {
+        program
+            .command('libraries')
+            .alias('lib')
+            .action(command.handle)
+            .on('--help', function () {
+                console.log('  Examples:');
+                console.log('');
+                console.log('    $ custom-help --help');
+                console.log('    $ custom-help -h');
+                console.log('');
+            });
+    }
 
-
-function init() {
-  program
-    .command('libraries')
-    .alias('lib')
-    .action(command.handle)
-    .on('--help', function () {
-      console.log('  Examples:');
-      console.log('');
-      console.log('    $ custom-help --help');
-      console.log('    $ custom-help -h');
-      console.log('');
-    });
-
-
-};
-
-function handle() {
-  "use strict";
-  library.info(program.global);
-
-};
-
+    handle() {
+        Library.info(program.global);
+    }
+}
+export let CommandLibraries = new Libraries();
 
 

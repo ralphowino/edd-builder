@@ -1,16 +1,14 @@
-'use strict';
-
 var q = require('q'),
   exec = require('exec'),
   path = require('path'),
   _ = require('lodash'),
   fs = require('fs-plus'),
-  io = require('../../edd-io'),
-  ghdownload = require('github-download'),
-  fileSys = require('../../edd-fs/components/Filesystem/index'),
-  manager = require('../../edd-fs/components/manager');
+  ghdownload = require('github-download');
 
-class Installer {
+import {Input, Output} from '../../edd-io/index';
+import {FileSystem, Manager} from '../../edd-fs/index';
+
+class ClassInstaller {
   /**
    * Install the libraries from github
    *
@@ -20,15 +18,15 @@ class Installer {
   installLibrary(library, version, skip) {
     let credentials, spinner, localFolder;
 
-    localFolder = fileSys.getLocalFolder();
+    localFolder = FileSystem.getLocalFolder();
 
     if (!localFolder) {
-      return io.confirm('I\'m not initialized in this project. Would you like to initialize now?').then((init)=> {
+      return Input.confirm('I\'m not initialized in this project. Would you like to initialize now?').then((init)=> {
         if (!init) {
           return q.reject('You should first initialize edd for this project. Run edd init in the project base folder');
         }
-        manager.init().then(()=> {
-          io.output.success('Initialization complete, now lets install the library');
+        Manager.init().then(()=> {
+          Output.success('Initialization complete, now lets install the library');
           this.installLibrary(library, version, skip);
         })
 
@@ -38,9 +36,9 @@ class Installer {
     credentials = Installer.getLibraryCredentials(library, version);
 
 
-    spinner = io.output.spinner('Installing library ' + credentials.user + '/' + credentials.repo);
+    spinner = Output.spinner('Installing library ' + credentials.user + '/' + credentials.repo);
     return this.download(credentials, localFolder + '/libraries/' + credentials.repo + '/' + credentials.branch).then((src) => {
-      return fileSys.readFile(src + '/edd-config.json').then((config)=> {
+      return FileSystem.readFile(src + '/edd-config.json').then((config)=> {
         spinner.stop();
         if (credentials.repo != config.slug) {
           config = this.moveToSlug(src, localFolder + '/libraries/' + config.slug + '/' + credentials.branch, config);
@@ -58,14 +56,14 @@ class Installer {
     return q.resolve(config).then((config)=> {
       let dependencies = [];
       if (config.dependencies) {
-        io.output.info('Installing dependencies for ' + config.slug)
+        Output.info('Installing dependencies for ' + config.slug)
         dependencies = _.map(config.dependencies, (version, library)=> {
           this.installLibrary(library, version, true);
         })
       }
 
       return q.all(dependencies).then(()=> {
-        io.output.success('Library ' + config.slug + ' successfully added.');
+        Output.success('Library ' + config.slug + ' successfully added.');
         return config;
       });
     });
@@ -77,7 +75,7 @@ class Installer {
     }
 
     if (fs.existsSync(dest)) {
-      return io.choice('Library with identifier ' + config.slug + ' already exists. What do we do?', ['overwrite', 'skip', 'rename']).then((choice)=> {
+      return Input.choice('Library with identifier ' + config.slug + ' already exists. What do we do?', ['overwrite', 'skip', 'rename']).then((choice)=> {
         if (choice == 'skip') {
           fs.removeSync(src);
           return config;
@@ -86,7 +84,7 @@ class Installer {
           return this.overwriteExisting(src, config)
         }
         if (choice == 'rename') {
-          return io.ask('What should I rename the file to:', path.basename(src)).then((slug) => {
+          return Input.ask('What should I rename the file to:', path.basename(src)).then((slug) => {
             config.slug = slug;
             return this.moveToSlug(src, config);
           });
@@ -211,4 +209,4 @@ class Installer {
   }
 }
 
-module.exports = new Installer;
+export let Installer = new ClassInstaller();
